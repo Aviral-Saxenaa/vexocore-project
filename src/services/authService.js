@@ -25,11 +25,19 @@ class AuthService {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Request failed');
+        // Create a more informative error with field information
+        const error = new Error(data.error || 'Request failed');
+        error.field = data.field;
+        error.status = response.status;
+        throw error;
       }
 
       return data;
     } catch (error) {
+      // Preserve field information if it exists
+      if (error.field) {
+        throw error;
+      }
       throw new Error(error.message || 'Network error');
     }
   }

@@ -62,7 +62,11 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { 
+        success: false, 
+        error: error.message,
+        field: error.field 
+      };
     }
   };
 

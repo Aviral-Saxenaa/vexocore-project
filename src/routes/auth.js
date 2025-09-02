@@ -13,21 +13,38 @@ router.post('/register', async (req, res) => {
 
     // Validation
     if (!email || !username || !password) {
-      return res.status(400).json({ error: 'Email, username, and password are required' });
+      return res.status(400).json({ 
+        error: 'Email, username, and password are required',
+        field: !email ? 'email' : !username ? 'username' : 'password'
+      });
     }
 
     if (password.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+      return res.status(400).json({ 
+        error: 'Password must be at least 6 characters long',
+        field: 'password'
+      });
     }
 
-    // Check if user already exists
-    const existingUser = await db('users')
-      .where('email', email)
-      .orWhere('username', username)
-      .first();
+    // Check if user already exists with better error messages
+    const existingUserByEmail = await db('users').where('email', email).first();
+    const existingUserByUsername = await db('users').where('username', username).first();
 
-    if (existingUser) {
-      return res.status(400).json({ error: 'User with this email or username already exists' });
+    if (existingUserByEmail && existingUserByUsername) {
+      return res.status(400).json({ 
+        error: 'Both email and username are already taken',
+        field: 'both'
+      });
+    } else if (existingUserByEmail) {
+      return res.status(400).json({ 
+        error: 'An account with this email already exists',
+        field: 'email'
+      });
+    } else if (existingUserByUsername) {
+      return res.status(400).json({ 
+        error: 'This username is already taken',
+        field: 'username'
+      });
     }
 
     // Hash password
@@ -63,7 +80,19 @@ router.post('/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Registration failed' });
+    
+    // Check for specific database errors
+    if (error.code === '23505') { // PostgreSQL unique constraint violation
+      return res.status(400).json({ 
+        error: 'An account with this email or username already exists',
+        field: 'duplicate'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Registration failed. Please try again.',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
