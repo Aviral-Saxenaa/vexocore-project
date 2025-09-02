@@ -1,0 +1,76 @@
+{
+  "name": "vexocore-task-manager",
+  "version": "1.0.0",
+  "description": "A modern Task Manager application with user authentication and comprehensive testing",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "nodemon src/index.js",
+    "dev:frontend": "vite",
+    "start": "node src/index.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "playwright test",
+    "test:unit": "jest",
+    "db:setup": "node scripts/setup-db.js",
+    "db:migrate": "knex migrate:latest --knexfile src/config/knexfile.js",
+    "db:rollback": "knex migrate:rollback --knexfile src/config/knexfile.js",
+    "lint": "eslint src --ext .js,.jsx",
+    "lint:fix": "eslint src --ext .js,.jsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aviral-Saxenaa/vexocore-project.git"
+  },
+  "keywords": [
+    "task-manager",
+    "web-app",
+    "javascript",
+    "nodejs",
+    "testing",
+    "playwright"
+  ],
+  "author": "Aviral Saxena",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Aviral-Saxenaa/vexocore-project/issues"
+  },
+  "homepage": "https://github.com/Aviral-Saxenaa/vexocore-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.0.1",
+    "pg": "^8.16.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
