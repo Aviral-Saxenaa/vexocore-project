@@ -2,11 +2,17 @@
 
 A modern, full-stack task management application built with React, Express.js, and PostgreSQL. Features user authentication, real-time task management, and comprehensive testing.
 
-![VexoCore Task Manager](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![VexoCore Task Manager](https://img.shields.io/badge/Status-Live%20on%20Render-brightgreen)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green)
 ![React](https://img.shields.io/badge/React-18.2-blue)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue)
 ![License](https://img.shields.io/badge/License-ISC-blue)
+![Live Demo](https://img.shields.io/badge/Live%20Demo-https://vexocore--project.onrender.com-blue)
+
+## 🌐 **Live Application**
+- **🌍 Live Backend**: [https://vexocore-project.onrender.com](https://vexocore-project.onrender.com)
+- **🔌 API Base**: [https://vexocore-project.onrender.com/api](https://vexocore-project.onrender.com/api)
+- **🏥 Health Check**: [https://vexocore-project.onrender.com/api/health](https://vexocore-project.onrender.com/api/health)
 
 ## ✨ Features
 
@@ -72,6 +78,11 @@ Before running this project, ensure you have:
 - **PostgreSQL database** (we use Neon for hosting)
 
 ## 🚀 Getting Started
+
+### 🌐 **Live Demo**
+**Your application is already deployed and running!**
+- **🔗 Live Backend**: [https://vexocore-project.onrender.com](https://vexocore-project.onrender.com)
+- **📱 Test the API**: [https://vexocore-project.onrender.com/api/health](https://vexocore-project.onrender.com/api/health)
 
 ### 1. Clone the Repository
 
@@ -263,7 +274,13 @@ pnpm run format:check
 
 ## 🚀 Deployment
 
-### Production Build
+### ✅ **Already Deployed!**
+Your VexoCore Task Manager is **live and running** on Render:
+- **🌍 Production URL**: [https://vexocore-project.onrender.com](https://vexocore-project.onrender.com)
+- **🔌 API Endpoints**: [https://vexocore-project.onrender.com/api](https://vexocore-project.onrender.com/api)
+- **🏥 Health Status**: [https://vexocore-project.onrender.com/api/health](https://vexocore-project.onrender.com/api/health)
+
+### Production Build (Local)
 ```bash
 # Build frontend
 pnpm run build
@@ -272,11 +289,11 @@ pnpm run build
 pnpm run start
 ```
 
-### Environment Variables for Production
-- Set `NODE_ENV=production`
-- Configure production database credentials
-- Set secure `JWT_SECRET`
-- Configure CORS origins for production domain
+### Environment Variables (Already Configured on Render)
+- ✅ `NODE_ENV=production`
+- ✅ Production database credentials (Neon PostgreSQL)
+- ✅ Secure `JWT_SECRET`
+- ✅ CORS origins configured
 
 ## 📁 Project Structure
 
