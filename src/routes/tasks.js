@@ -22,14 +22,17 @@ router.get('/', authenticateToken, async (req, res) => {
       query = query.where('priority', priority);
     }
 
-    // Get total count for pagination
-    const totalCount = await query.clone().count('* as count').first();
-
-    // Get paginated results
+    // Get paginated results first
     const tasks = await query
       .limit(limit)
       .offset(offset)
       .select('*');
+
+    // Get total count for pagination (separate query to avoid GROUP BY issues)
+    const totalCount = await db('tasks')
+      .where('user_id', req.user.userId)
+      .count('* as count')
+      .first();
 
     res.json({
       tasks,
@@ -53,11 +56,11 @@ router.get('/stats', authenticateToken, async (req, res) => {
       .where('user_id', req.user.userId)
       .select(
         db.raw('COUNT(*) as total'),
-        db.raw('SUM(CASE WHEN completed = 1 THEN 1 ELSE 0 END) as completed'),
-        db.raw('SUM(CASE WHEN completed = 0 THEN 1 ELSE 0 END) as pending'),
-        db.raw('SUM(CASE WHEN priority = "high" THEN 1 ELSE 0 END) as highPriority'),
-        db.raw('SUM(CASE WHEN priority = "medium" THEN 1 ELSE 0 END) as mediumPriority'),
-        db.raw('SUM(CASE WHEN priority = "low" THEN 1 ELSE 0 END) as lowPriority')
+        db.raw('SUM(CASE WHEN completed = true THEN 1 ELSE 0 END) as completed'),
+        db.raw('SUM(CASE WHEN completed = false THEN 1 ELSE 0 END) as pending'),
+        db.raw('SUM(CASE WHEN priority = ? THEN 1 ELSE 0 END) as highPriority', ['high']),
+        db.raw('SUM(CASE WHEN priority = ? THEN 1 ELSE 0 END) as mediumPriority', ['medium']),
+        db.raw('SUM(CASE WHEN priority = ? THEN 1 ELSE 0 END) as lowPriority', ['low'])
       )
       .first();
 
@@ -118,11 +121,9 @@ router.post('/', authenticateToken, async (req, res) => {
       completed: false
     };
 
-    const [taskId] = await db('tasks').insert(taskData);
-
-    const newTask = await db('tasks')
-      .where('id', taskId)
-      .first();
+    const [newTask] = await db('tasks')
+      .insert(taskData)
+      .returning('*');
 
     res.status(201).json({
       message: 'Task created successfully',
